@@ -1,7 +1,9 @@
 package com.attornatus.challenge.entity;
 
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +35,8 @@ public class Person {
 	private String name;
 	
 	@Column
-	private Date birthDate;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private LocalDate birthDate;
 	
 	@OneToMany(mappedBy = "person")
 	private Collection<Address> addresses;
