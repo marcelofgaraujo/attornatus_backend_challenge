@@ -24,16 +24,16 @@ public class PersonService {
 		return person;
 	}
 
-	public List<Person> getAllPersons() {
+	public List<Person> findAllPersons() {
 		return personRepository.findAll();
 	}
 
-	public Person getPersonById(long personId) {
+	public Person findPersonById(long personId) {
 		return personRepository.findById(personId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!"));
 	}
 
-	public List<Person> getPersonsByName(String name) throws ResponseStatusException {
+	public List<Person> findPersonsByName(String name) throws ResponseStatusException {
 		List<Person> foundPersons = personRepository.findByName(name);
 		if (foundPersons.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
