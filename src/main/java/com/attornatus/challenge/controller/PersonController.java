@@ -30,4 +30,8 @@ public class PersonController {
 		return ResponseEntity.ok(personService.findPersonsByName(name));
 	}
 	
+	@GetMapping
+	public ResponseEntity<Person> getPersonById(@PathVariable Long personId) {
+		return ResponseEntity.ok(personService.findPersonById(personId));
+	}
 }
