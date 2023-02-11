@@ -1,5 +1,7 @@
 package com.attornatus.challenge.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.attornatus.challenge.entity.Person;
@@ -18,6 +20,10 @@ public class PersonService {
 	public Person savePerson(Person person) {
 		personRepository.save(person);
 		return person;
+	}
+	
+	public List<Person> getAllPersons() {
+		return personRepository.findAll();
 	}
 	
 }
