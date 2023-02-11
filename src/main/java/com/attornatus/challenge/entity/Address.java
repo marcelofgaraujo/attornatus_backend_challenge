@@ -30,7 +30,7 @@ public class Address {
 	private String CEP;
 	
 	@Column
-	private int number;
+	private Integer number;
 	
 	@Column
 	private String city;
