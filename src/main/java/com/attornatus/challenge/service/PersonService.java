@@ -34,4 +34,8 @@ public class PersonService {
 						"Pessoa não encontrada!"));
 	}
 	
+	public List<Person> getPersonsByName(String name) {
+		return personRepository.findByName(name);
+	}
+	
 }
