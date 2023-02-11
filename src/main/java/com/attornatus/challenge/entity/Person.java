@@ -13,10 +13,12 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
+@NoArgsConstructor
 @Table
 @Entity
 public class Person {
@@ -33,7 +35,7 @@ public class Person {
 	@Column
 	private Date birthDate;
 	
-	@OneToMany(mappedBy = "address")
+	@OneToMany(mappedBy = "person")
 	private Collection<Address> addresses;
 	
 }
