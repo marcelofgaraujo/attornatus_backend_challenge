@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,7 @@ public class Address {
 	@Column
 	private String city;
 	
+	@OneToOne(mappedBy = "principalAddress")
 	@ManyToOne
 	@JoinColumn(name = "personId")
 	private Person person;
