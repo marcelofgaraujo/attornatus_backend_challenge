@@ -25,4 +25,9 @@ public class PersonController {
 		return ResponseEntity.ok(personService.findAllPersons());
 	}
 	
+	@GetMapping
+	public ResponseEntity<List<Person>> getPersonByName(@PathVariable String name) {
+		return ResponseEntity.ok(personService.findPersonsByName(name));
+	}
+	
 }
