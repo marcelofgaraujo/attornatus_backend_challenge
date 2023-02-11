@@ -16,26 +16,30 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PersonService {
-	
+
 	private PersonRepository personRepository;
-	
+
 	public Person savePerson(Person person) {
 		personRepository.save(person);
 		return person;
 	}
-	
+
 	public List<Person> getAllPersons() {
 		return personRepository.findAll();
 	}
-	
+
 	public Person getPersonById(long personId) {
 		return personRepository.findById(personId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
-						"Pessoa não encontrada!"));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!"));
 	}
-	
-	public List<Person> getPersonsByName(String name) {
-		return personRepository.findByName(name);
+
+	public List<Person> getPersonsByName(String name) throws ResponseStatusException {
+		List<Person> foundPersons = personRepository.findByName(name);
+		if (foundPersons.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
+		} else {
+			return foundPersons;
+		}
 	}
-	
+
 }
