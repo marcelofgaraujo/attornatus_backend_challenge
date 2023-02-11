@@ -1,5 +1,7 @@
 package com.attornatus.challenge.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.attornatus.challenge.entity.Address;
@@ -18,5 +20,9 @@ public class AddressService {
 	public Address saveAddress(Address address) {
 		addressRepository.save(address);
 		return address;
+	}
+	
+	public List<Address> getAllAddresses() {
+		return addressRepository.findAll();
 	}
 }
