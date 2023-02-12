@@ -28,6 +28,16 @@ public class AddressController {
 		return ResponseEntity.ok(addressService.findAllAddresses());
 	}
 	
+	@GetMapping("/addaddress/{personId}/{addressId}")
+	public ResponseEntity<Address> addPersonAddress(Long personId, Long addressId) {
+		return ResponseEntity.ok(addressService.addAddressToAPerson(personId, addressId));
+	}
+	
+	@GetMapping("/setprincipaladdress/{personId}/{addressId}")
+	public ResponseEntity<Address> addPrincipalAddress(Long personId, Long addressId) {
+		return ResponseEntity.ok(addressService.setPrincipalAddress(personId, addressId));
+	}
+	
 	@GetMapping("/useraddresses/{personId}")
 	public ResponseEntity<List<Address>> getAllPersonAddresses(@PathVariable Long personId) {
 		return ResponseEntity.ok(addressService.findPersonAddresses(personId));
