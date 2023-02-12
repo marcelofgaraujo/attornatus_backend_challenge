@@ -43,4 +43,9 @@ public class AddressService {
 				.collect(Collectors.toList());
 		return personAddresses;
 	}
+	
+	public void addAddressToAPerson(Person person, Long addressId) {
+		Address foundAddress = findAddressById(addressId);
+		person.getAddresses().add(foundAddress);
+	}
 }
