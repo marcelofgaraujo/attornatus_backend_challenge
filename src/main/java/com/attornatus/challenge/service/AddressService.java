@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.attornatus.challenge.entity.Address;
+import com.attornatus.challenge.entity.Person;
 import com.attornatus.challenge.repository.AddressRepository;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +29,10 @@ public class AddressService {
 	
 	public List<Address> findAllAddresses() {
 		return addressRepository.findAll();
+	}
+	
+	public Address findAddressById(Long addressId) {
+		return addressRepository.findById(addressId).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereço não encontrado!"));
 	}
 	
 	public List<Address> findPersonAddresses(Long personId) {
