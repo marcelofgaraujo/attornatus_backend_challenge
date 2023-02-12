@@ -22,7 +22,7 @@ public class AddressService {
 		return address;
 	}
 	
-	public List<Address> getAllAddresses() {
+	public List<Address> findAllAddresses() {
 		return addressRepository.findAll();
 	}
 }
