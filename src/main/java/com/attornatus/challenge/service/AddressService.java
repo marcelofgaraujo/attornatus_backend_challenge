@@ -47,7 +47,7 @@ public class AddressService {
 		return personAddresses;
 	}
 	
-	public Address addAddressToAPerson(Long personId, Long addressId) {
+	public Address addAddressToAPerson(Long personId, Long addressId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 		Address address = findAddressById(addressId);
 		
@@ -55,6 +55,15 @@ public class AddressService {
 			Person person = personOpt.get();
 			person.getAddresses().add(address);
 			return address;
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
+		}
+	}
+	
+	public Address findPrincipalAddress(Long personId) throws ResponseStatusException {
+		Optional<Person> personOpt = personRepository.findById(personId);
+		if(personOpt.isPresent()) {
+			return personOpt.get().getPrincipalAddress();
 		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
 		}

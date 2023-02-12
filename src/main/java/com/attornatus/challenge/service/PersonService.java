@@ -42,8 +42,4 @@ public class PersonService {
 			return foundPersons;
 		}
 	}
-	
-	public Address findPrincipalAddress(Long personId) {
-		return findPersonById(personId).getPrincipalAddress();
-	}
 }
