@@ -60,6 +60,18 @@ public class AddressService {
 		}
 	}
 	
+	public Address setPrincipalAddress(Long personId, Long addressId) throws ResponseStatusException {
+		Optional<Person> personOpt = personRepository.findById(personId);
+		if(personOpt.isPresent()) {
+			Person person = personOpt.get();
+			Address address = findAddressById(addressId);
+			person.setPrincipalAddress(address);
+			return address;
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
+		}
+	}
+	
 	public Address findPrincipalAddress(Long personId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 		if(personOpt.isPresent()) {
