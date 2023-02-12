@@ -29,7 +29,7 @@ public class PersonService {
 		return personRepository.findAll();
 	}
 
-	public Person findPersonById(long personId) {
+	public Person findPersonById(Long personId) {
 		return personRepository.findById(personId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!"));
 	}
