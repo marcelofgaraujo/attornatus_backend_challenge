@@ -1,6 +1,7 @@
 package com.attornatus.challenge.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.attornatus.challenge.entity.Address;
 import com.attornatus.challenge.entity.Person;
 import com.attornatus.challenge.repository.AddressRepository;
+import com.attornatus.challenge.repository.PersonRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +23,7 @@ import lombok.Data;
 public class AddressService {
 	
 	private AddressRepository addressRepository;
+	private PersonRepository personRepository;
 	
 	public Address saveAddress(Address address) {
 		addressRepository.save(address);
@@ -44,8 +47,16 @@ public class AddressService {
 		return personAddresses;
 	}
 	
-	public void addAddressToAPerson(Person person, Long addressId) {
-		Address foundAddress = findAddressById(addressId);
-		person.getAddresses().add(foundAddress);
+	public Address addAddressToAPerson(Long personId, Long addressId) {
+		Optional<Person> personOpt = personRepository.findById(personId);
+		Address address = findAddressById(addressId);
+		
+		if(personOpt.isPresent()) {
+			Person person = personOpt.get();
+			person.getAddresses().add(address);
+			return address;
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
+		}
 	}
 }
