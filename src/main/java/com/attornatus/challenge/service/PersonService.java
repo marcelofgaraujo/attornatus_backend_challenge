@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.attornatus.challenge.entity.Address;
 import com.attornatus.challenge.entity.Person;
 import com.attornatus.challenge.repository.PersonRepository;
 

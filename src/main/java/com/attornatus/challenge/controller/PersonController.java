@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.attornatus.challenge.entity.Address;
 import com.attornatus.challenge.entity.Person;
 import com.attornatus.challenge.service.PersonService;
 
@@ -37,11 +36,6 @@ public class PersonController {
 	@GetMapping("/{personId}")
 	public ResponseEntity<Person> getPersonById(@PathVariable Long personId) {
 		return ResponseEntity.ok(personService.findPersonById(personId));
-	}
-	
-	@GetMapping("/principaladdress/{personId}")
-	public ResponseEntity<Address> getPrincipalAddress(@PathVariable Long personId) {
-		return ResponseEntity.ok(personService.findPrincipalAddress(personId));
 	}
 	
 	@PostMapping
