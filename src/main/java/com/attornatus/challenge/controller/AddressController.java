@@ -28,7 +28,7 @@ public class AddressController {
 		return ResponseEntity.ok(addressService.findAllAddresses());
 	}
 	
-	@GetMapping("/addaddress/{personId}/{addressId}")
+	@GetMapping("/add/{personId}/{addressId}")
 	public ResponseEntity<Address> addPersonAddress(Long personId, Long addressId) {
 		return ResponseEntity.ok(addressService.addAddressToAPerson(personId, addressId));
 	}
