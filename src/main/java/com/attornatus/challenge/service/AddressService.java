@@ -65,12 +65,19 @@ public class AddressService {
 
 	public Address setPrincipalAddress(Long personId, Long addressId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
+		
 		if (personOpt.isPresent()) {
 			Person person = personOpt.get();
 			Address address = findAddressById(addressId);
-			person.setPrincipalAddress(address);
-			address.setPerson(person);
-			return person.getPrincipalAddress();
+			boolean addressBelongsToPerson = person.getAddresses().stream().anyMatch(ad -> ad.equals(address));
+
+			if (addressBelongsToPerson) {
+				person.setPrincipalAddress(address);
+				personRepository.save(person);
+				return person.getPrincipalAddress();
+			} else {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este endereço não pertence à pessoa!");
+			}
 		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
 		}
