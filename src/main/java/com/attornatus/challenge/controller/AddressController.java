@@ -29,12 +29,12 @@ public class AddressController {
 	}
 	
 	@GetMapping("/add/{personId}/{addressId}")
-	public ResponseEntity<Address> addPersonAddress(Long personId, Long addressId) {
+	public ResponseEntity<Address> addPersonAddress(@PathVariable Long personId, @PathVariable Long addressId) {
 		return ResponseEntity.ok(addressService.addAddressToAPerson(personId, addressId));
 	}
 	
 	@GetMapping("/setprincipaladdress/{personId}/{addressId}")
-	public ResponseEntity<Address> addPrincipalAddress(Long personId, Long addressId) {
+	public ResponseEntity<Address> addPrincipalAddress(@PathVariable Long personId, @PathVariable Long addressId) {
 		return ResponseEntity.ok(addressService.setPrincipalAddress(personId, addressId));
 	}
 	
