@@ -1,11 +1,10 @@
 package com.attornatus.challenge.entity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -41,8 +40,8 @@ public class Person {
 	private String name;
 	
 	@Column
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private LocalDate birthDate;
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private Date birthDate;
 	
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
