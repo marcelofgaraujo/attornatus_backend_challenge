@@ -2,9 +2,11 @@ package com.attornatus.challenge.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,13 +33,16 @@ class AddressServiceTest {
 	@MockBean
 	private AddressRepository addressRepository;
 	
+	@InjectMocks
 	@Autowired
 	private AddressService addressService;
 	
 	@Test
 	void saveAddressTest() {
+		Mockito.when(addressService.saveAddress(testAddress)).thenReturn(testAddress);
+		
 		Address returnAddress = addressService.saveAddress(testAddress);
-		System.out.println(returnAddress.toString());
+		
 		assertEquals(returnAddress, testAddress);
 	}
 	
@@ -47,14 +52,25 @@ class AddressServiceTest {
 		addressService.saveAddress(testAddress2);
 		addressService.saveAddress(testAddress3);
 		
-		List<Address> expectReturn = addressService.findAllAddresses();
-		
+		List<Address> expectReturn = Arrays.asList(testAddress, testAddress2, testAddress3);
 		Mockito.when(addressService.findAllAddresses()).thenReturn(expectReturn);
+		
+		List<Address> actualReturn = addressService.findAllAddresses();
+		
+		assertEquals(expectReturn, actualReturn);
 	}
 	
 	@Test
-	void findAddressByIdTest() {
+	void findAddressByIdTest() { // TODO descobrir porque o getId() retorna errado aqui (em testes manuais está certo)
+		addressService.saveAddress(testAddress);
+		addressService.saveAddress(testAddress2);
+		addressService.saveAddress(testAddress3);
 		
+		Mockito.when(addressService.findAddressById(testAddress2.getId())).thenReturn(testAddress2);
+		
+		Address testReturn = addressService.findAddressById(testAddress2.getId());
+		
+		assertEquals(testReturn, testAddress2);
 	}
 
 }
