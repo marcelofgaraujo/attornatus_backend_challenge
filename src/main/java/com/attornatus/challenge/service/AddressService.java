@@ -51,6 +51,10 @@ public class AddressService {
 	public Address addAddressToAPerson(Long personId, Long addressId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 		Address address = findAddressById(addressId);
+		
+		if (address.getPerson() != null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este endereço já pertence a uma pessoa!");
+		}
 
 		if (personOpt.isPresent()) {
 			Person person = personOpt.get();
