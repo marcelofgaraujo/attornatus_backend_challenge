@@ -1,10 +1,14 @@
 package com.attornatus.challenge.entity;
 
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,11 +44,13 @@ public class Person {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate birthDate;
 	
-	@OneToMany(mappedBy = "person")
-	private Collection<Address> addresses;
+	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	private List<Address> addresses = new ArrayList<>();
 	
-	@OneToOne
-	@JoinColumn(name = "principalAddress")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	@JoinColumn(name = "principalAddressId")
 	private Address principalAddress;
 	
 }
