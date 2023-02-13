@@ -22,8 +22,8 @@ class AddressServiceTest {
 	
 	Person testPerson = new Person(1L, "joão das couves", null, null, null);
 	Address testAddress = new Address(1L, "rua das couves, bairro centro", "45530-001", 244, "couves gerais", null);
-	Address testAddress2 = new Address(1L, "rua do brócolis, bairro couve", "55530-001", 254, "couves gerais", null);
-	Address testAddress3 = new Address(1L, "rua da couve-de-bruxelas, bairro legume", "65530-001", 264, "couves gerais", null);
+	Address testAddress2 = new Address(2L, "rua do brócolis, bairro couve", "55530-001", 254, "couves gerais", null);
+	Address testAddress3 = new Address(3L, "rua da couve-de-bruxelas, bairro legume", "65530-001", 264, "couves gerais", null);
 	
 	@MockBean
 	private PersonRepository personRepository;
@@ -50,6 +50,11 @@ class AddressServiceTest {
 		List<Address> expectReturn = addressService.findAllAddresses();
 		
 		Mockito.when(addressService.findAllAddresses()).thenReturn(expectReturn);
+	}
+	
+	@Test
+	void findAddressByIdTest() {
+		
 	}
 
 }
