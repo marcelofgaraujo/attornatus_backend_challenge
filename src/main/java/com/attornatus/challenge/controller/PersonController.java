@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +42,11 @@ public class PersonController {
 	@PostMapping
 	public ResponseEntity<Person> createAPerson(@RequestBody Person person) {
 		return new ResponseEntity<Person>(personService.savePerson(person), HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/{personId}")
+	public ResponseEntity<Person> updatePerson(@PathVariable Long personId, @RequestBody Person updatedPerson) {
+		return ResponseEntity.ok(personService.updatePerson(personId, updatedPerson));
 	}
 	
 }

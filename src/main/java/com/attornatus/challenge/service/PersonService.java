@@ -41,4 +41,13 @@ public class PersonService {
 			return foundPersons;
 		}
 	}
+	
+	public Person updatePerson(Long personId, Person updatedPerson) {
+		Person person = findPersonById(personId);
+		
+		person.setName(updatedPerson.getName());
+		person.setBirthDate(updatedPerson.getBirthDate());
+		
+		return savePerson(person);
+	}
 }
