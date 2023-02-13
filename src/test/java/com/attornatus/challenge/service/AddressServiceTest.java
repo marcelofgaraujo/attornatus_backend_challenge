@@ -1,5 +1,8 @@
 package com.attornatus.challenge.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,5 +30,12 @@ class AddressServiceTest {
 	
 	@Autowired
 	private AddressService addressService;
+	
+	@Test
+	void saveAddressTest() {
+		Address returnAddress = addressService.saveAddress(testAddress);
+		System.out.println(returnAddress.toString());
+		assertEquals(returnAddress, testAddress);
+	}
 
 }
