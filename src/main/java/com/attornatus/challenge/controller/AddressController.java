@@ -38,6 +38,11 @@ public class AddressController {
 		return ResponseEntity.ok(addressService.setPrincipalAddress(personId, addressId));
 	}
 	
+	@GetMapping("/principaladdress/{personId}")
+	public ResponseEntity<Address> getPrincipalAddress(@PathVariable Long personId) {
+		return ResponseEntity.ok(addressService.findPrincipalAddress(personId));
+	}
+	
 	@GetMapping("/useraddresses/{personId}")
 	public ResponseEntity<List<Address>> getAllPersonAddresses(@PathVariable Long personId) {
 		return ResponseEntity.ok(addressService.findPersonAddresses(personId));

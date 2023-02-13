@@ -91,4 +91,15 @@ public class AddressService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
 		}
 	}
+	
+	public Address updateAddress(Long addressId, Address updatedAddress) {
+		Address address = findAddressById(addressId);
+		
+		address.setPublicArea(updatedAddress.getPublicArea());
+		address.setCEP(updatedAddress.getCEP());
+		address.setNumber(updatedAddress.getNumber());
+		address.setCity(updatedAddress.getCity());
+		
+		return saveAddress(address);
+	}
 }
