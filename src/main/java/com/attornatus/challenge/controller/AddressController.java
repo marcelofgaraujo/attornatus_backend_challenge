@@ -28,6 +28,11 @@ public class AddressController {
 		return ResponseEntity.ok(addressService.findAllAddresses());
 	}
 	
+	@GetMapping("/{addressId}")
+	public ResponseEntity<Address> getAddressById(@PathVariable Long addressId) {
+		return ResponseEntity.ok(addressService.findAddressById(addressId));
+	}
+	
 	@GetMapping("/add/{personId}/{addressId}")
 	public ResponseEntity<Address> addPersonAddress(@PathVariable Long personId, @PathVariable Long addressId) {
 		return ResponseEntity.ok(addressService.addAddressToAPerson(personId, addressId));
