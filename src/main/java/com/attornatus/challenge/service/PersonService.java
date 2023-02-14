@@ -30,13 +30,13 @@ public class PersonService {
 
 	public Person findPersonById(Long personId) {
 		return personRepository.findById(personId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!"));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!"));
 	}
 
 	public List<Person> findPersonsByName(String name) throws ResponseStatusException {
 		List<Person> foundPersons = personRepository.findByName(name);
 		if (foundPersons.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		} else {
 			return foundPersons;
 		}

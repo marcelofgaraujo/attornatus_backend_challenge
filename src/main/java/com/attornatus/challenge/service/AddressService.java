@@ -34,7 +34,7 @@ public class AddressService {
 
 	public Address findAddressById(Long addressId) {
 		return addressRepository.findById(addressId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereço não encontrado!"));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado!"));
 	}
 
 	public List<Address> findPersonAddresses(Long personId) throws ResponseStatusException {
@@ -44,7 +44,7 @@ public class AddressService {
 			Person person = personOpt.get();
 			return person.getAddresses();
 		} else {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		}
 	}
 
@@ -63,7 +63,7 @@ public class AddressService {
 			personRepository.save(person);
 			return address;
 		} else {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		}
 	}
 
@@ -83,7 +83,7 @@ public class AddressService {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este endereço não pertence à pessoa!");
 			}
 		} else {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		}
 	}
 
@@ -92,7 +92,7 @@ public class AddressService {
 		if (personOpt.isPresent()) {
 			return personOpt.get().getPrincipalAddress();
 		} else {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pessoa não encontrada!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		}
 	}
 	
