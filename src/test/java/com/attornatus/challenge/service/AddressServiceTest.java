@@ -173,5 +173,16 @@ class AddressServiceTest {
 		assertEquals(resultAddress.getCEP(), "25550-354");
 		assertEquals(resultAddress.getNumber(), 456);
 	}
+	
+	@Test
+	void deleteAddressTest() {
+		// arrange
+		Mockito.when(addressRepository.existsById(1L)).thenReturn(true);
+		// action
+		addressService.deleteAddressById(1L);
+		// assert
+		List<Address> addresses = addressService.findAllAddresses();
+		assertEquals(addresses.size(), 0);
+	}
 
 }
