@@ -50,4 +50,12 @@ public class PersonService {
 		
 		return savePerson(person);
 	}
+	
+	public void deletePersonById(Long personId) throws ResponseStatusException {
+		if(!personRepository.existsById(personId)) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
+		} else {
+			personRepository.deleteById(personId);
+		}
+	}
 }
