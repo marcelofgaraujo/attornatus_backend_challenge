@@ -2,6 +2,7 @@ package com.attornatus.challenge.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
@@ -17,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.attornatus.challenge.entity.Address;
 import com.attornatus.challenge.entity.Person;
@@ -87,6 +89,19 @@ class AddressServiceTest {
 		assertEquals(addressReturn.getCEP(), "45530-001");
 		assertEquals(addressReturn.getPublicArea(), "rua das couves, bairro centro");
 		assertEquals(addressReturn.getCity(), "cidade das couves");
+	}
+	
+	@Test void findAddressByInvalidIdTest() {
+		// arrange
+		Long invalidId = 3L;
+		// action
+		Exception exception = assertThrows(ResponseStatusException.class, () -> {
+			addressService.findAddressById(invalidId);
+		});
+		// assert
+		String expectMessage = "404 NOT_FOUND \"Endereço não encontrado!\"";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectMessage, actualMessage);
 	}
 	
 	@Test
