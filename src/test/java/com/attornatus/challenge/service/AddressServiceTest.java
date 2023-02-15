@@ -207,6 +207,20 @@ class AddressServiceTest {
 	}
 	
 	@Test
+	void findPrincipalAddressWhenPersonDontHaveAnyTest() {
+		// arrange
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		// action
+		Exception exception = assertThrows(ResponseStatusException.class, () -> {
+			addressService.findPrincipalAddress(1L);
+		});
+		verify(personRepository).findById(1L);
+		String expectMessage = "404 NOT_FOUND \"Pessoa não possui endereço principal!\"";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectMessage, actualMessage);
+	}
+	
+	@Test
 	void updateAddressTest() {
 		// arrange
 		Address newAddress = new Address();
