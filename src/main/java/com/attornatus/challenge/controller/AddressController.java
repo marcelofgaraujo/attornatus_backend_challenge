@@ -71,7 +71,7 @@ public class AddressController {
 	}
 	
 	@ApiOperation(value = "Editar um endereço")
-	@PutMapping("/{addressId")
+	@PutMapping("/{addressId}")
 	public ResponseEntity<Address> updateAddress(@PathVariable Long addressId, @RequestBody Address updatedAddress) {
 		return ResponseEntity.ok(addressService.updateAddress(addressId, updatedAddress));
 	}
