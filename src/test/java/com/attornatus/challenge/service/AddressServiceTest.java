@@ -119,6 +119,26 @@ class AddressServiceTest {
 	}
 	
 	@Test
+	void addAddressToAPersonThatContainsThisAddress() {
+		// arrange
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		// action
+		Exception exception = assertThrows(ResponseStatusException.class, () -> {
+			addressService.addAddressToAPerson(1L, 1L);
+		});
+		// assert
+		verify(addressRepository, Mockito.times(2)).findById(1L);
+		verify(personRepository, Mockito.times(2)).findById(1L);
+		String expectedMessage = "400 BAD_REQUEST \"Endereço já pertence à esta pessoa!\"";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+	
+	@Test
 	void findPersonAddressesTest() {
 		// arrange
 		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
