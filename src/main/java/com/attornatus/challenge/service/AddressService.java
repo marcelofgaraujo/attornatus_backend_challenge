@@ -58,7 +58,7 @@ public class AddressService {
 			
 			boolean haveThisAddress = person.getAddresses().contains(address);
 			if (haveThisAddress) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereço já pertence à esta pessoa!");
-			if (address.getPerson() != null && !haveThisAddress) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este endereço já pertence a outra pessoa!");
+			if (address.getPerson() != null && !haveThisAddress) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este endereço já pertence à outra pessoa!");
 			
 			person.getAddresses().add(address);
 			address.setPerson(person);
