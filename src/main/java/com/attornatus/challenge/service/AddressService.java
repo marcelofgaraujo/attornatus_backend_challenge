@@ -74,7 +74,7 @@ public class AddressService {
 		if (personOpt.isPresent()) {
 			Person person = personOpt.get();
 			Address address = findAddressById(addressId);
-			boolean addressBelongsToPerson = person.getAddresses().stream().anyMatch(ad -> ad.equals(address));
+			boolean addressBelongsToPerson = person.getAddresses().contains(address);
 
 			if (addressBelongsToPerson) {
 				person.setPrincipalAddress(address);
