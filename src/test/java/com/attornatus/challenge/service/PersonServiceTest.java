@@ -2,6 +2,7 @@ package com.attornatus.challenge.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.attornatus.challenge.entity.Person;
 import com.attornatus.challenge.repository.PersonRepository;
@@ -74,6 +76,20 @@ class PersonServiceTest {
 		// assert
 		verify(personRepository).findById(1L);
 		assertEquals(personReturn.getName(), "joão das couves");
+	}
+
+	@Test
+	void findPersonByInvalidId() {
+		// arrange
+		Long invalidId = 5L;
+		// action
+		Exception exception = assertThrows(ResponseStatusException.class, () -> {
+			personService.findPersonById(invalidId);
+		});
+		// assert
+		String expectMessage = "404 NOT_FOUND \"Pessoa não encontrada!\"";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectMessage, actualMessage);
 	}
 
 	@Test
