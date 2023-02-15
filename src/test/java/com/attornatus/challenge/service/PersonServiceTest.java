@@ -64,7 +64,7 @@ class PersonServiceTest {
 		assertEquals(listReturn.size(), 2);
 		assertNotNull(listReturn);
 	}
-	
+
 	@Test
 	void findPersonByIdTest() {
 		// arrange
@@ -75,7 +75,7 @@ class PersonServiceTest {
 		verify(personRepository).findById(1L);
 		assertEquals(personReturn.getName(), "joão das couves");
 	}
-	
+
 	@Test
 	void findPersonByName() {
 		// arrange
@@ -90,7 +90,7 @@ class PersonServiceTest {
 		assertEquals(returnList.size(), personsList.size());
 		assertNotNull(returnList);
 	}
-	
+
 	@Test
 	void updatePersonTest() {
 		// arrange
@@ -102,6 +102,17 @@ class PersonServiceTest {
 		// assert
 		verify(personRepository).findById(1L);
 		assertEquals(resultPerson.getName(), "john travolta");
+	}
+
+	@Test
+	void deletePersonTest() {
+		// arrange
+		Mockito.when(personRepository.existsById(1L)).thenReturn(true);
+		// action
+		personService.deletePersonById(1L);
+		// assert
+		List<Person> persons = personService.findAllPersons();
+		assertEquals(persons.size(), 0);
 	}
 
 }
