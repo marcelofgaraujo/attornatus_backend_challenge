@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -115,6 +116,25 @@ class AddressServiceTest {
 		verify(addressRepository).findById(1L);
 		verify(personRepository, Mockito.times(2)).findById(1L);
 		assertTrue(result.containsAll(testPerson.getAddresses()));
+	}
+	
+	@Test
+	void setPrincipalAddressTest() {
+		// arrange
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
+		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		// action
+		Address result = addressService.setPrincipalAddress(1L, 1L);
+		// assert
+		verify(addressRepository, Mockito.times(2)).findById(1L);
+		verify(personRepository, Mockito.times(2)).findById(1L);
+		verify(personRepository).save(testPerson);
+		assertEquals(testPerson.getPrincipalAddress(), result);
+		assertEquals(testPerson.getPrincipalAddress().getCity(), "cidade das couves");
 	}
 
 }
