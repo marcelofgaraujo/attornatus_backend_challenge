@@ -156,5 +156,22 @@ class AddressServiceTest {
 		assertEquals(testPerson.getPrincipalAddress(), result);
 		assertEquals(testPerson.getPrincipalAddress().getCEP(), "45530-001");
 	}
+	
+	@Test
+	void updateAddressTest() {
+		// arrange
+		Address newAddress = new Address();
+		newAddress.setCEP("25550-354");
+		newAddress.setNumber(456);
+		newAddress.setCity("couves gerais");
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		// action
+		Address resultAddress = addressService.updateAddress(1L, newAddress);
+		// assert
+		verify(addressRepository).findById(1L);
+		assertEquals(resultAddress.getCity(), "couves gerais");
+		assertEquals(resultAddress.getCEP(), "25550-354");
+		assertEquals(resultAddress.getNumber(), 456);
+	}
 
 }
