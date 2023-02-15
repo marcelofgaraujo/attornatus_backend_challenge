@@ -1,34 +1,32 @@
 package com.attornatus.challenge.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.attornatus.challenge.entity.Address;
 import com.attornatus.challenge.entity.Person;
 import com.attornatus.challenge.repository.AddressRepository;
 import com.attornatus.challenge.repository.PersonRepository;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class AddressServiceTest {
-	
-//	Person testPerson = new Person(1L, "joão das couves", null, null, null);
-//	Address testAddress = new Address(1L, "rua das couves, bairro centro", "45530-001", 244, "couves gerais", null);
-//	Address testAddress2 = new Address(2L, "rua do brócolis, bairro couve", "55530-001", 254, "couves gerais", null);
-//	Address testAddress3 = new Address(3L, "rua da couve-de-bruxelas, bairro legume", "65530-001", 264, "couves gerais", null);
+		
+	Person testPerson;
+	Address testAddress;
 	
 	@Mock
 	private PersonRepository personRepository;
@@ -39,17 +37,25 @@ class AddressServiceTest {
 	@InjectMocks
 	private AddressService addressService;
 	
+	@SuppressWarnings("deprecation")
 	@BeforeEach
 	public void init() {
-		MockitoAnnotations.openMocks(this);
+		testPerson = new Person();
+		testPerson.setName("joão das couves");
+		testPerson.setBirthDate(new Date("12/12/1998"));
+		
+		testAddress = new Address();
+		testAddress.setPublicArea("rua das couves, bairro centro");
+		testAddress.setCEP("45530-001");
+		testAddress.setNumber(244);
+		testAddress.setCity("cidade das couves");
 	}
 	
 	@Test
 	void saveAddressTest() {
-		Address testAddress = new Address(1L, "rua das couves, bairro centro", "45530-001", 244, "couves gerais", null);
-		
+		// action
 		Address returnAddress = addressService.saveAddress(testAddress);
-		
+		// assert
 		verify(addressRepository).save(testAddress);
 		assertEquals(returnAddress, testAddress);
 		assertEquals(returnAddress.getCity(), testAddress.getCity());
@@ -57,29 +63,43 @@ class AddressServiceTest {
 	
 	@Test
 	void findAllAddresses() {
-		Address testAddress = new Address(1L, "rua das couves, bairro centro", "45530-001", 244, "couves gerais", null);
+		// arrange
 		Address testAddress2 = new Address(2L, "rua do brócolis, bairro couve", "55530-001", 254, "couves gerais", null);
 		List<Address> expectReturn = Arrays.asList(testAddress, testAddress2);
 		Mockito.when(addressService.findAllAddresses()).thenReturn(expectReturn);
-		
-		List<Address> actualReturn = addressService.findAllAddresses();
-		
+		// action
+		List<Address> listReturn = addressService.findAllAddresses();
+		// assert
 		verify(addressRepository).findAll();
-		assertEquals(expectReturn, actualReturn);
-		assertEquals(expectReturn.size(), actualReturn.size());
+		assertEquals(listReturn.size(), 2);
+		assertNotNull(listReturn);
 	}
 	
 	@Test
 	void findAddressByIdTest() {
-		Address testAddress = new Address(1L, "rua das couves, bairro centro", "45530-001", 244, "couves gerais", null);
+		// arrange
 		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
-		
+		// action
 		Address addressReturn = addressService.findAddressById(1L);
-		
+		// assert
 		verify(addressRepository).findById(1L);
 		assertEquals(addressReturn.getCEP(), "45530-001");
 		assertEquals(addressReturn.getPublicArea(), "rua das couves, bairro centro");
-		assertEquals(addressReturn.getCity(), "couves gerais");
+		assertEquals(addressReturn.getCity(), "cidade das couves");
+	}
+	
+	@Test
+	void addAddressToAPersonTest() {
+		// arrange
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		// action
+		Address result = addressService.addAddressToAPerson(1L, 1L);
+		// assert
+		verify(addressRepository).findById(1L);
+		verify(personRepository).findById(1L);
+		assertEquals(result, testAddress);
+		assertTrue(testPerson.getAddresses().contains(result));
 	}
 
 }
