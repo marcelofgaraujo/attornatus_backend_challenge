@@ -58,6 +58,7 @@ public class AddressService {
 
 		if (personOpt.isPresent()) {
 			Person person = personOpt.get();
+			if (person.getAddresses().contains(address)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereço já pertence à esta pessoa!");
 			person.getAddresses().add(address);
 			address.setPerson(person);
 			personRepository.save(person);
