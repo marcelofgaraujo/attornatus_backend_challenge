@@ -76,7 +76,7 @@ public class AddressController {
 		return ResponseEntity.ok(addressService.updateAddress(addressId, updatedAddress));
 	}
 	
-	@ApiOperation(value = "Exclua um endereço")
+	@ApiOperation(value = "Excluir um endereço")
 	@DeleteMapping("/{addressId}")
 	public ResponseEntity<Void> deleteAddress(@PathVariable Long addressId) {
 		addressService.deleteAddressById(addressId);
