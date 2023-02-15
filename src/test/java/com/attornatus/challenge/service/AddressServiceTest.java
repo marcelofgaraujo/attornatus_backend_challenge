@@ -101,5 +101,20 @@ class AddressServiceTest {
 		assertEquals(result, testAddress);
 		assertTrue(testPerson.getAddresses().contains(result));
 	}
+	
+	@Test
+	void findPersonAddressesTest() {
+		// arrange
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		// action
+		List<Address> result = addressService.findPersonAddresses(1L);
+		// assert
+		verify(addressRepository).findById(1L);
+		verify(personRepository, Mockito.times(2)).findById(1L);
+		assertTrue(result.containsAll(testPerson.getAddresses()));
+	}
 
 }
