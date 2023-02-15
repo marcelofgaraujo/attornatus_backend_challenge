@@ -90,5 +90,18 @@ class PersonServiceTest {
 		assertEquals(returnList.size(), personsList.size());
 		assertNotNull(returnList);
 	}
+	
+	@Test
+	void updatePersonTest() {
+		// arrange
+		Person newPerson = new Person();
+		newPerson.setName("john travolta");
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		// action
+		Person resultPerson = personService.updatePerson(1L, newPerson);
+		// assert
+		verify(personRepository).findById(1L);
+		assertEquals(resultPerson.getName(), "john travolta");
+	}
 
 }
