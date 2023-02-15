@@ -51,7 +51,7 @@ public class AddressService {
 	public Address addAddressToAPerson(Long personId, Long addressId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 		Address address = findAddressById(addressId);
-		
+
 		if (address.getPerson() != null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este endereço já pertence a uma pessoa!");
 		}
@@ -69,7 +69,7 @@ public class AddressService {
 
 	public Address setPrincipalAddress(Long personId, Long addressId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
-		
+
 		if (personOpt.isPresent()) {
 			Person person = personOpt.get();
 			Address address = findAddressById(addressId);
@@ -95,15 +95,23 @@ public class AddressService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		}
 	}
-	
+
 	public Address updateAddress(Long addressId, Address updatedAddress) {
 		Address address = findAddressById(addressId);
-		
+
 		address.setPublicArea(updatedAddress.getPublicArea());
 		address.setCEP(updatedAddress.getCEP());
 		address.setNumber(updatedAddress.getNumber());
 		address.setCity(updatedAddress.getCity());
-		
+
 		return saveAddress(address);
+	}
+
+	public void deleteAddressById(Long addressId) throws ResponseStatusException {
+		if (!addressRepository.existsById(addressId)) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado!");
+		} else {
+			addressRepository.deleteById(addressId);
+		}
 	}
 }
