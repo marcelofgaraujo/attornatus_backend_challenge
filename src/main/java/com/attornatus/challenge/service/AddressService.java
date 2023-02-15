@@ -53,8 +53,8 @@ public class AddressService {
 		Optional<Person> personOpt = personRepository.findById(personId);
 		Address address = findAddressById(addressId);
 
-		if (address.getPerson() != null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este endereço já pertence a uma pessoa!");
+		if (address.getPerson() != null && !personOpt.get().getAddresses().contains(address)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este endereço já pertence a outra pessoa!");
 		}
 
 		if (personOpt.isPresent()) {
