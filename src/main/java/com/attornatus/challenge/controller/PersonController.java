@@ -15,35 +15,43 @@ import org.springframework.web.bind.annotation.RestController;
 import com.attornatus.challenge.entity.Person;
 import com.attornatus.challenge.service.PersonService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 
 @RequestMapping("/persons")
 @RestController
 @AllArgsConstructor
+@Api(tags = "Person Controller", description = "métodos HTTP para a entidade Pessoa")
 public class PersonController {
 	
 	private PersonService personService;
 	
+	@ApiOperation(value = "Buscar todas as pessoas")
 	@GetMapping
 	public ResponseEntity<List<Person>> getAllPersons() {
 		return ResponseEntity.ok(personService.findAllPersons());
 	}
 	
+	@ApiOperation(value = "Buscar pessoa pelo nome exato")
 	@GetMapping("/names/{name}")
 	public ResponseEntity<List<Person>> getPersonByName(@PathVariable String name) {
 		return ResponseEntity.ok(personService.findPersonsByName(name));
 	}
 	
+	@ApiOperation(value = "Buscar pessoa por id")
 	@GetMapping("/{personId}")
 	public ResponseEntity<Person> getPersonById(@PathVariable Long personId) {
 		return ResponseEntity.ok(personService.findPersonById(personId));
 	}
 	
+	@ApiOperation(value = "Criar uma pessoa")
 	@PostMapping
 	public ResponseEntity<Person> createAPerson(@RequestBody Person person) {
 		return new ResponseEntity<Person>(personService.savePerson(person), HttpStatus.CREATED);
 	}
 	
+	@ApiOperation(value = "Editar uma pessoa")
 	@PutMapping("/{personId}")
 	public ResponseEntity<Person> updatePerson(@PathVariable Long personId, @RequestBody Person updatedPerson) {
 		return ResponseEntity.ok(personService.updatePerson(personId, updatedPerson));
