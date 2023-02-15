@@ -27,32 +27,32 @@ import com.attornatus.challenge.repository.PersonRepository;
 
 @SpringBootTest
 class AddressServiceTest {
-		
+
 	Person testPerson;
 	Address testAddress;
-	
+
 	@Mock
 	private PersonRepository personRepository;
-	
+
 	@Mock
 	private AddressRepository addressRepository;
-	
+
 	@InjectMocks
 	private AddressService addressService;
-	
+
 	@BeforeEach
 	public void init() {
 		testPerson = new Person();
 		testPerson.setName("joão das couves");
 		testPerson.setBirthDate(Date.valueOf("1998-12-12"));
-		
+
 		testAddress = new Address();
 		testAddress.setPublicArea("rua das couves, bairro centro");
 		testAddress.setCEP("45530-001");
 		testAddress.setNumber(244);
 		testAddress.setCity("cidade das couves");
 	}
-	
+
 	@Test
 	void saveAddressTest() {
 		// action
@@ -62,11 +62,12 @@ class AddressServiceTest {
 		assertEquals(returnAddress, testAddress);
 		assertEquals(returnAddress.getCity(), testAddress.getCity());
 	}
-	
+
 	@Test
 	void findAllAddresses() {
 		// arrange
-		Address testAddress2 = new Address(2L, "rua do brócolis, bairro couve", "55530-001", 254, "couves gerais", null);
+		Address testAddress2 = new Address(2L, "rua do brócolis, bairro couve", "55530-001", 254, "couves gerais",
+				null);
 		List<Address> expectReturn = Arrays.asList(testAddress, testAddress2);
 		Mockito.when(addressService.findAllAddresses()).thenReturn(expectReturn);
 		// action
@@ -76,7 +77,7 @@ class AddressServiceTest {
 		assertEquals(listReturn.size(), 2);
 		assertNotNull(listReturn);
 	}
-	
+
 	@Test
 	void findAddressByIdTest() {
 		// arrange
@@ -89,8 +90,9 @@ class AddressServiceTest {
 		assertEquals(addressReturn.getPublicArea(), "rua das couves, bairro centro");
 		assertEquals(addressReturn.getCity(), "cidade das couves");
 	}
-	
-	@Test void findAddressByInvalidIdTest() {
+
+	@Test
+	void findAddressByInvalidIdTest() {
 		// arrange
 		Long invalidId = 3L;
 		// action
@@ -102,7 +104,7 @@ class AddressServiceTest {
 		String actualMessage = exception.getMessage();
 		assertEquals(expectMessage, actualMessage);
 	}
-	
+
 	@Test
 	void addAddressToAPersonTest() {
 		// arrange
@@ -116,7 +118,7 @@ class AddressServiceTest {
 		assertEquals(result, testAddress);
 		assertTrue(testPerson.getAddresses().contains(result));
 	}
-	
+
 	@Test
 	void addAddressToAPersonThatContainsThisAddress() {
 		// arrange
@@ -136,7 +138,7 @@ class AddressServiceTest {
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
 	}
-	
+
 	@Test
 	void findPersonAddressesWhenItsNullTest() {
 		// arrange
@@ -151,7 +153,21 @@ class AddressServiceTest {
 		String actualMessage = exception.getMessage();
 		assertEquals(expectMessage, actualMessage);
 	}
-	
+
+	@Test
+	void findPersonAddressesWhenPersonIsNullTest() {
+		// arrange
+		Long invalidId = 3L;
+		// action
+		Exception exception = assertThrows(ResponseStatusException.class, () -> {
+			addressService.findPersonAddresses(invalidId);
+		});
+		// assert
+		String expectMessage = "404 NOT_FOUND \"Pessoa não encontrada!\"";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectMessage, actualMessage);
+	}
+
 	@Test
 	void findPersonAddressesTest() {
 		// arrange
@@ -166,7 +182,7 @@ class AddressServiceTest {
 		verify(personRepository, Mockito.times(2)).findById(1L);
 		assertTrue(result.containsAll(testPerson.getAddresses()));
 	}
-	
+
 	@Test
 	void setPrincipalAddressTest() {
 		// arrange
@@ -184,7 +200,7 @@ class AddressServiceTest {
 		assertEquals(testPerson.getPrincipalAddress(), result);
 		assertEquals(testPerson.getPrincipalAddress().getCity(), "cidade das couves");
 	}
-	
+
 	@Test
 	void setPrincipalAddressWhenPersonDontHaveThisAddressTest() {
 		// arrange
@@ -201,7 +217,7 @@ class AddressServiceTest {
 		String actualMessage = exception.getMessage();
 		assertEquals(expectMessage, actualMessage);
 	}
-	
+
 	@Test
 	void findPrincipalAddressTest() {
 		// arrange
@@ -222,7 +238,7 @@ class AddressServiceTest {
 		assertEquals(testPerson.getPrincipalAddress(), result);
 		assertEquals(testPerson.getPrincipalAddress().getCEP(), "45530-001");
 	}
-	
+
 	@Test
 	void findPrincipalAddressWhenPersonDontHaveAnyTest() {
 		// arrange
@@ -236,7 +252,7 @@ class AddressServiceTest {
 		String actualMessage = exception.getMessage();
 		assertEquals(expectMessage, actualMessage);
 	}
-	
+
 	@Test
 	void updateAddressTest() {
 		// arrange
@@ -253,7 +269,7 @@ class AddressServiceTest {
 		assertEquals(resultAddress.getCEP(), "25550-354");
 		assertEquals(resultAddress.getNumber(), 456);
 	}
-	
+
 	@Test
 	void deleteAddressTest() {
 		// arrange
