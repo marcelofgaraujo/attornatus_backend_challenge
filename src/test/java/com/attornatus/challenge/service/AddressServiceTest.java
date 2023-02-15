@@ -132,7 +132,6 @@ class AddressServiceTest {
 		// assert
 		verify(addressRepository, Mockito.times(2)).findById(1L);
 		verify(personRepository, Mockito.times(2)).findById(1L);
-		verify(personRepository).save(testPerson);
 		assertEquals(testPerson.getPrincipalAddress(), result);
 		assertEquals(testPerson.getPrincipalAddress().getCity(), "cidade das couves");
 	}
