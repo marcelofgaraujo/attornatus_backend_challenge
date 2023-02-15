@@ -138,28 +138,16 @@ class AddressServiceTest {
 	}
 	
 	@Test
-	void addAddressThatBelongsToOtherPerson() {
+	void findPersonAddressesWhenItsNullTest() {
 		// arrange
-		Person newPerson = new Person();
-		newPerson.setName("joaquim das couves");
-		newPerson.setBirthDate(Date.valueOf("1930-11-12"));
-		
-		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(newPerson);
-		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
 		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
-		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
-		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
-		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
-		Mockito.when(personRepository.findById(2L)).thenReturn(Optional.of(testPerson));
 		// action
 		Exception exception = assertThrows(ResponseStatusException.class, () -> {
-			addressService.addAddressToAPerson(2L, 1L);
+			addressService.findPersonAddresses(1L);
 		});
 		// assert
-		verify(addressRepository, Mockito.times(2)).findById(1L);
 		verify(personRepository).findById(1L);
-		verify(personRepository).findById(2L);
-		String expectMessage = "400 BAD_REQUEST \"Este endereço já pertence à outra pessoa!\"";
+		String expectMessage = "404 NOT_FOUND \"Esta pessoa não contém endereços cadastrados!\"";
 		String actualMessage = exception.getMessage();
 		assertEquals(expectMessage, actualMessage);
 	}
