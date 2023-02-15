@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,6 +74,13 @@ public class AddressController {
 	@PutMapping("/{addressId")
 	public ResponseEntity<Address> updateAddress(@PathVariable Long addressId, @RequestBody Address updatedAddress) {
 		return ResponseEntity.ok(addressService.updateAddress(addressId, updatedAddress));
+	}
+	
+	@ApiOperation(value = "Exclua um endereço")
+	@DeleteMapping("/{addressId}")
+	public ResponseEntity<Void> deleteAddress(@PathVariable Long addressId) {
+		addressService.deleteAddressById(addressId);
+		return ResponseEntity.noContent().build();
 	}
 
 }
