@@ -89,11 +89,12 @@ public class AddressService {
 
 	public Address findPrincipalAddress(Long personId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
-		if (personOpt.isPresent()) {
-			return personOpt.get().getPrincipalAddress();
-		} else {
+		if (personOpt.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
+		} else if (personOpt.get().getPrincipalAddress() == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não possui endereço principal!");
 		}
+		return personOpt.get().getPrincipalAddress();
 	}
 
 	public Address updateAddress(Long addressId, Address updatedAddress) {
