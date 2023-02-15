@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import java.sql.Date;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,12 +40,11 @@ class AddressServiceTest {
 	@InjectMocks
 	private AddressService addressService;
 	
-	@SuppressWarnings("deprecation")
 	@BeforeEach
 	public void init() {
 		testPerson = new Person();
 		testPerson.setName("joão das couves");
-		testPerson.setBirthDate(new Date("12/12/1998"));
+		testPerson.setBirthDate(Date.valueOf("1998-12-12"));
 		
 		testAddress = new Address();
 		testAddress.setPublicArea("rua das couves, bairro centro");
@@ -136,6 +135,33 @@ class AddressServiceTest {
 		String expectedMessage = "400 BAD_REQUEST \"Endereço já pertence à esta pessoa!\"";
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
+	}
+	
+	@Test
+	void addAddressThatBelongsToOtherPerson() {
+		// arrange
+		Person newPerson = new Person();
+		newPerson.setName("joaquim das couves");
+		newPerson.setBirthDate(Date.valueOf("1930-11-12"));
+		
+		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(newPerson);
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
+		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(2L)).thenReturn(Optional.of(testPerson));
+		// action
+		Exception exception = assertThrows(ResponseStatusException.class, () -> {
+			addressService.addAddressToAPerson(2L, 1L);
+		});
+		// assert
+		verify(addressRepository, Mockito.times(2)).findById(1L);
+		verify(personRepository).findById(1L);
+		verify(personRepository).findById(2L);
+		String expectMessage = "400 BAD_REQUEST \"Este endereço já pertence à outra pessoa!\"";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectMessage, actualMessage);
 	}
 	
 	@Test

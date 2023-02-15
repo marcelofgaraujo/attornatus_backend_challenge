@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
+import java.sql.Date;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,12 +32,11 @@ class PersonServiceTest {
 	@InjectMocks
 	private PersonService personService;
 
-	@SuppressWarnings("deprecation")
 	@BeforeEach
 	public void init() {
 		testPerson = new Person();
 		testPerson.setName("joão das couves");
-		testPerson.setBirthDate(new Date("12/12/1998"));
+		testPerson.setBirthDate(Date.valueOf("1998-12-12"));
 	}
 
 	@Test
@@ -50,13 +49,12 @@ class PersonServiceTest {
 		assertEquals(returnPerson.getName(), testPerson.getName());
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	void findAllPersonsTest() {
 		// arrange
 		Person testPerson2 = new Person();
 		testPerson2.setName("irmão do joão");
-		testPerson2.setBirthDate(new Date("11/11/1922"));
+		testPerson2.setBirthDate(Date.valueOf("1922-11-11"));
 		List<Person> expectReturn = Arrays.asList(testPerson, testPerson2);
 		Mockito.when(personService.findAllPersons()).thenReturn(expectReturn);
 		// action
@@ -97,6 +95,7 @@ class PersonServiceTest {
 		// arrange
 		Person newPerson = new Person();
 		newPerson.setName("joão das couves");
+		newPerson.setBirthDate(Date.valueOf("1925-11-12"));
 		List<Person> personsList = Arrays.asList(testPerson, newPerson);
 		Mockito.when(personRepository.findByName("joão das couves")).thenReturn(personsList);
 		// action
@@ -112,12 +111,14 @@ class PersonServiceTest {
 		// arrange
 		Person newPerson = new Person();
 		newPerson.setName("john travolta");
+		newPerson.setBirthDate(Date.valueOf("1922-11-11"));
 		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		// action
 		Person resultPerson = personService.updatePerson(1L, newPerson);
 		// assert
 		verify(personRepository).findById(1L);
 		assertEquals(resultPerson.getName(), "john travolta");
+		assertEquals(resultPerson.getBirthDate(), Date.valueOf("1922-11-11"));
 	}
 
 	@Test
