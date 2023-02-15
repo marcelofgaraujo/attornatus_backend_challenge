@@ -52,14 +52,15 @@ public class AddressService {
 	public Address addAddressToAPerson(Long personId, Long addressId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 		Address address = findAddressById(addressId);
+		boolean haveThisAddress = personOpt.get().getAddresses().contains(address);
 
-		if (address.getPerson() != null && !personOpt.get().getAddresses().contains(address)) {
+		if (address.getPerson() != null && !haveThisAddress) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este endereço já pertence a outra pessoa!");
 		}
 
 		if (personOpt.isPresent()) {
 			Person person = personOpt.get();
-			if (person.getAddresses().contains(address)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereço já pertence à esta pessoa!");
+			if (haveThisAddress) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereço já pertence à esta pessoa!");
 			person.getAddresses().add(address);
 			address.setPerson(person);
 			personRepository.save(person);
