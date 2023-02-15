@@ -42,6 +42,7 @@ public class AddressService {
 
 		if (personOpt.isPresent()) {
 			Person person = personOpt.get();
+			if (person.getAddresses().isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Esta pessoa não contém endereços cadastrados!");
 			return person.getAddresses();
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
