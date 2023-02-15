@@ -186,6 +186,23 @@ class AddressServiceTest {
 	}
 	
 	@Test
+	void setPrincipalAddressWhenPersonDontHaveThisAddressTest() {
+		// arrange
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		// action
+		Exception exception = assertThrows(ResponseStatusException.class, () -> {
+			addressService.setPrincipalAddress(1L, 1L);
+		});
+		// assert
+		verify(addressRepository).findById(1L);
+		verify(personRepository).findById(1L);
+		String expectMessage = "400 BAD_REQUEST \"Este endereço não pertence à pessoa!\"";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectMessage, actualMessage);
+	}
+	
+	@Test
 	void findPrincipalAddressTest() {
 		// arrange
 		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
