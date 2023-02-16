@@ -98,6 +98,17 @@ public class AddressService {
 		}
 		return personOpt.get().getPrincipalAddress();
 	}
+	
+	public void removePrincipalAddress(Long personId) throws ResponseStatusException {
+		Optional<Person> personOpt = personRepository.findById(personId);
+		if (personOpt.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
+		} else {
+			Person person = personOpt.get();
+			person.setPrincipalAddress(null);
+			personRepository.save(person);
+		}
+	}
 
 	public Address updateAddress(Long addressId, Address updatedAddress) {
 		Address address = findAddressById(addressId);
