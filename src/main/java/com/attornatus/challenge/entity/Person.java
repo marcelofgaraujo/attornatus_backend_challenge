@@ -14,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -37,10 +40,13 @@ public class Person {
 	@Column(name = "personId")
 	private Long id;
 	
+	@NotBlank
+	@Size(max = 100)
 	@Column
 	private String name;
 	
-	@Column
+	@NotNull
+	@Column(length = 10)
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date birthDate;
 	

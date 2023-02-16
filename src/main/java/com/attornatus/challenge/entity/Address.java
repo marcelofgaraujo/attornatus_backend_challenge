@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -30,15 +33,20 @@ public class Address {
 	@Column(name = "addressId")
 	private Long id;
 	
+	@NotBlank
 	@Column
 	private String publicArea;
 	
+	@NotBlank
 	@Column(length = 9)
 	private String cep;
 	
+	@NotNull
 	@Column
 	private Integer number;
 	
+	@NotBlank
+	@Size(max = 150)
 	@Column
 	private String city;
 	
