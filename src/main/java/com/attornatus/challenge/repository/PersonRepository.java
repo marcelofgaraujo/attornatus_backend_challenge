@@ -1,3 +1,6 @@
+// interface utilizada para realizar toda a comunicação com a tabela person no banco de dados
+// sem a necessidade de criar os comandos SQL
+
 package com.attornatus.challenge.repository;
 
 import java.util.List;
