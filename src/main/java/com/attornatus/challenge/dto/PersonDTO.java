@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +16,10 @@ public class PersonDTO {
 	
 	private Long id;
 	
+	@ApiModelProperty(example = "James Gosling")
 	private String name;
 	
+	@ApiModelProperty(example = "19/05/1955")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date birthDate;
 }
