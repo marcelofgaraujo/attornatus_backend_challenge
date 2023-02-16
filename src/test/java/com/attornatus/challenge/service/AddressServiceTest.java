@@ -225,6 +225,27 @@ class AddressServiceTest {
 		assertEquals(testPerson.getPrincipalAddress(), result);
 		assertEquals(testPerson.getPrincipalAddress().getCity(), "cidade das couves");
 	}
+	
+	@Test
+	void removePrincipalAddressTest() {
+		// arrange
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
+		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		Mockito.when(addressService.setPrincipalAddress(1L, 1L)).thenReturn(testAddress);
+		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
+		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
+		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
+		// action
+		addressService.removePrincipalAddress(1L);
+		// assert
+		verify(addressRepository, Mockito.times(2)).findById(1L);
+		verify(personRepository, Mockito.times(3)).findById(1L);
+		assertEquals(testPerson.getPrincipalAddress(), null);
+	}
 
 	@Test
 	void setPrincipalAddressWhenPersonDontHaveThisAddressTest() {
