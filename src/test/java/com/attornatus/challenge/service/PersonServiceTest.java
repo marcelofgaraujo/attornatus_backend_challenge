@@ -1,3 +1,5 @@
+// classe de teste para serviços de pessoa
+
 package com.attornatus.challenge.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,22 +25,28 @@ import com.attornatus.challenge.repository.PersonRepository;
 
 @SpringBootTest
 class PersonServiceTest {
-
+	
+	// pessoa teste
 	Person testPerson;
-
+	
+	// uso da anotação Mock do Mockito para mockar o repositório
 	@Mock
 	private PersonRepository personRepository;
-
+	
+	// uso da anotação InjectMocks para a injeção do mock na classe de serviço que
+	// será testada
 	@InjectMocks
 	private PersonService personService;
-
+	
+	// setup acionado na inicialização de cada teste, instancia uma pessoa teste
 	@BeforeEach
 	public void init() {
 		testPerson = new Person();
 		testPerson.setName("joão das couves");
 		testPerson.setBirthDate(Date.valueOf("1998-12-12"));
 	}
-
+	
+	// teste para a função de salvar uma pessoa no banco
 	@Test
 	void savePersonTest() {
 		// action
@@ -48,7 +56,8 @@ class PersonServiceTest {
 		assertEquals(returnPerson, testPerson);
 		assertEquals(returnPerson.getName(), testPerson.getName());
 	}
-
+	
+	// teste para o retorno de todas as pessoas do banco
 	@Test
 	void findAllPersonsTest() {
 		// arrange
@@ -64,7 +73,8 @@ class PersonServiceTest {
 		assertEquals(listReturn.size(), 2);
 		assertNotNull(listReturn);
 	}
-
+	
+	// teste para o retorno de uma pessoa por id
 	@Test
 	void findPersonByIdTest() {
 		// arrange
@@ -75,7 +85,9 @@ class PersonServiceTest {
 		verify(personRepository).findById(1L);
 		assertEquals(personReturn.getName(), "joão das couves");
 	}
-
+	
+	// teste para o retorno de uma pessoa que não existe
+	// deve retornar 404 not found
 	@Test
 	void findPersonByInvalidId() {
 		// arrange
@@ -89,7 +101,8 @@ class PersonServiceTest {
 		String actualMessage = exception.getMessage();
 		assertEquals(expectMessage, actualMessage);
 	}
-
+	
+	// teste para o retorno de uma pessoa pelo nome exato
 	@Test
 	void findPersonByName() {
 		// arrange
@@ -105,7 +118,8 @@ class PersonServiceTest {
 		assertEquals(returnList.size(), personsList.size());
 		assertNotNull(returnList);
 	}
-
+	
+	// teste para atualizar uma pessoa
 	@Test
 	void updatePersonTest() {
 		// arrange
@@ -120,7 +134,8 @@ class PersonServiceTest {
 		assertEquals(resultPerson.getName(), "john travolta");
 		assertEquals(resultPerson.getBirthDate(), Date.valueOf("1922-11-11"));
 	}
-
+	
+	// teste para a exclusão de uma pessoa
 	@Test
 	void deletePersonTest() {
 		// arrange
