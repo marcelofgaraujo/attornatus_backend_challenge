@@ -1,3 +1,5 @@
+// classe de serviços para para operações relacionadas com endereços
+
 package com.attornatus.challenge.service;
 
 import java.util.List;
@@ -19,24 +21,29 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AddressService {
-
+	
+	// repositórios necessários para o funcionamento da classe
 	private AddressRepository addressRepository;
 	private PersonRepository personRepository;
-
+	
+	// salva um endereço no banco
 	public Address saveAddress(Address address) {
 		addressRepository.save(address);
 		return address;
 	}
-
+	
+	// retorna uma lista com todos os endereços
 	public List<Address> findAllAddresses() {
 		return addressRepository.findAll();
 	}
-
+	
+	// retorna um endereço por id no banco
 	public Address findAddressById(Long addressId) {
 		return addressRepository.findById(addressId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado!"));
 	}
-
+	
+	// retorna os endereços de uma pessoa
 	public List<Address> findPersonAddresses(Long personId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 
@@ -48,7 +55,8 @@ public class AddressService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		}
 	}
-
+	
+	// adiciona um endereço a uma pessoa
 	public Address addAddressToAPerson(Long personId, Long addressId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 		Address address = findAddressById(addressId);
@@ -68,7 +76,8 @@ public class AddressService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		}
 	}
-
+	
+	// define endereço principal a uma pessoa (a pessoa deve ser dona do endereço)
 	public Address setPrincipalAddress(Long personId, Long addressId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 
@@ -88,7 +97,8 @@ public class AddressService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		}
 	}
-
+	
+	// retorna o endereço principal de uma pessoa, se definido
 	public Address findPrincipalAddress(Long personId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 		if (personOpt.isEmpty()) {
@@ -99,6 +109,7 @@ public class AddressService {
 		return personOpt.get().getPrincipalAddress();
 	}
 	
+	// remove o endereço principal de uma pessoa
 	public void removePrincipalAddress(Long personId) throws ResponseStatusException {
 		Optional<Person> personOpt = personRepository.findById(personId);
 		if (personOpt.isEmpty()) {
@@ -109,7 +120,8 @@ public class AddressService {
 			personRepository.save(person);
 		}
 	}
-
+	
+	// atualiza um endereço
 	public Address updateAddress(Long addressId, Address updatedAddress) {
 		Address address = findAddressById(addressId);
 
@@ -120,7 +132,8 @@ public class AddressService {
 
 		return saveAddress(address);
 	}
-
+	
+	// exclui um endereço
 	public void deleteAddressById(Long addressId) throws ResponseStatusException {
 		if (!addressRepository.existsById(addressId)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado!");
