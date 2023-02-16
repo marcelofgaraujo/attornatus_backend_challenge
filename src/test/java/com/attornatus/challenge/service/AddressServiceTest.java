@@ -125,8 +125,6 @@ class AddressServiceTest {
 		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
 		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
-		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
-		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		// action
 		Exception exception = assertThrows(ResponseStatusException.class, () -> {
 			addressService.addAddressToAPerson(1L, 1L);
@@ -149,7 +147,6 @@ class AddressServiceTest {
 		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
 		Mockito.when(personRepository.findById(3L)).thenReturn(Optional.of(newPerson));
 		Mockito.when(addressService.addAddressToAPerson(3L, 1L)).thenReturn(testAddress);
-		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
 		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		// action
 		Exception exception = assertThrows(ResponseStatusException.class, () -> {
@@ -199,7 +196,6 @@ class AddressServiceTest {
 		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
 		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
-		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		// action
 		List<Address> result = addressService.findPersonAddresses(1L);
 		// assert
@@ -215,8 +211,6 @@ class AddressServiceTest {
 		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
 		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
-		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
-		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		// action
 		Address result = addressService.setPrincipalAddress(1L, 1L);
 		// assert
@@ -233,17 +227,11 @@ class AddressServiceTest {
 		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
 		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
-		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
-		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
-		Mockito.when(addressService.setPrincipalAddress(1L, 1L)).thenReturn(testAddress);
-		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
-		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
-		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		// action
 		addressService.removePrincipalAddress(1L);
 		// assert
-		verify(addressRepository, Mockito.times(2)).findById(1L);
-		verify(personRepository, Mockito.times(3)).findById(1L);
+		verify(addressRepository).findById(1L);
+		verify(personRepository, Mockito.times(2)).findById(1L);
 		assertEquals(testPerson.getPrincipalAddress(), null);
 	}
 
@@ -271,11 +259,7 @@ class AddressServiceTest {
 		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		Mockito.when(addressService.addAddressToAPerson(1L, 1L)).thenReturn(testAddress);
 		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
-		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
-		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		Mockito.when(addressService.setPrincipalAddress(1L, 1L)).thenReturn(testAddress);
-		Mockito.when(personRepository.save(ArgumentMatchers.any(Person.class))).thenReturn(testPerson);
-		Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(testPerson));
 		// action
 		Address result = addressService.findPrincipalAddress(1L);
 		// assert
