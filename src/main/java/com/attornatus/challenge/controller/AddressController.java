@@ -1,3 +1,5 @@
+// endpoints para os serviços de endereço
+
 package com.attornatus.challenge.controller;
 
 import java.util.ArrayList;
@@ -104,14 +106,17 @@ public class AddressController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	// converte uma entidade address em um objeto address dto
 	private AddressDTO convertAddressToDTO(Address address) {
 		return modelMapper.map(address, AddressDTO.class);
 	}
 	
+	// converte um objeto address DTO em uma entidade address
 	private Address convertDTOtoAddress(AddressDTO addressDTO) {
 		return modelMapper.map(addressDTO, Address.class);
 	}
 	
+	// converte uma lista de entidades address em uma lista de objetos address dto
 	private List<AddressDTO> convertListAddressToListDTO(List<Address> addresses) {
 		List<AddressDTO> addressesDTO = new ArrayList<>();
 		addresses.forEach(ad -> {
