@@ -1,3 +1,6 @@
+// controlador de ResponseStatusException
+// serve para ocultar o stackTrace desse tipo de exceção e retornar apenas a mensagem com o http status
+
 package com.attornatus.challenge.exception;
 
 import org.springframework.http.HttpStatus;
