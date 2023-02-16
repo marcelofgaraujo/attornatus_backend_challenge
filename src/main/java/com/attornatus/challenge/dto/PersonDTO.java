@@ -1,3 +1,6 @@
+// um objeto person dto que retorna os atributos da entidade person sem que haja interação com as relações
+// retorna id, name, e birthDate
+
 package com.attornatus.challenge.dto;
 
 import java.util.Date;
