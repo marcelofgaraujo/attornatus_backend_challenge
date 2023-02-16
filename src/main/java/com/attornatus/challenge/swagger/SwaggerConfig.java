@@ -1,3 +1,7 @@
+// classe de configuração do swagger api
+// aqui é definido o pacote dos controladores que serão mostrados
+// também nome, descrição e versão do projeto
+
 package com.attornatus.challenge.swagger;
 
 import org.springframework.context.annotation.Bean;
