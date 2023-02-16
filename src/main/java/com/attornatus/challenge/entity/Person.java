@@ -1,3 +1,8 @@
+// entidade person usada pra salvar as pessoas no banco
+// salva id, name e birthDate
+// daqui também serão geradas uma relação oneToMany (atributo addresses) 
+// e uma relação oneToOne (atributo principalAddress) com a tabela address
+
 package com.attornatus.challenge.entity;
 
 import java.sql.Date;
