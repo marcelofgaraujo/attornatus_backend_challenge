@@ -1,3 +1,5 @@
+// endpoints para os serviços de pessoa
+
 package com.attornatus.challenge.controller;
 
 import java.util.ArrayList;
@@ -76,14 +78,17 @@ public class PersonController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	// converte uma entidade person em um objeto person dto
 	private PersonDTO convertPersonToDTO(Person person) {
 		return modelMapper.map(person, PersonDTO.class);
 	}
 	
+	// converte um objeto person dto em uma entidade person
 	private Person convertDTOtoPerson(PersonDTO personDTO) {
 		return modelMapper.map(personDTO, Person.class);
 	}
 	
+	// converte uma lista de entidades person em uma lista de objetos person dto
 	private List<PersonDTO> convertListPersonToListDTO(List<Person> persons) {
 		List<PersonDTO> personsDTO = new ArrayList<>();
 		persons.forEach(p -> {
