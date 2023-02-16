@@ -1,3 +1,7 @@
+// entidade address usada pra salvar os endereços no banco
+// salva id, publicArea, cep, number e city
+// daqui também será gerada uma relação manyToOne com a tabela person
+
 package com.attornatus.challenge.entity;
 
 import javax.persistence.Column;
