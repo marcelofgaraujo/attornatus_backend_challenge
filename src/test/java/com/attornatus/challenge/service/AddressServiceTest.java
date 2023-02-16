@@ -48,7 +48,7 @@ class AddressServiceTest {
 
 		testAddress = new Address();
 		testAddress.setPublicArea("rua das couves, bairro centro");
-		testAddress.setCEP("45530-001");
+		testAddress.setCep("45530-001");
 		testAddress.setNumber(244);
 		testAddress.setCity("cidade das couves");
 	}
@@ -86,7 +86,7 @@ class AddressServiceTest {
 		Address addressReturn = addressService.findAddressById(1L);
 		// assert
 		verify(addressRepository).findById(1L);
-		assertEquals(addressReturn.getCEP(), "45530-001");
+		assertEquals(addressReturn.getCep(), "45530-001");
 		assertEquals(addressReturn.getPublicArea(), "rua das couves, bairro centro");
 		assertEquals(addressReturn.getCity(), "cidade das couves");
 	}
@@ -266,7 +266,7 @@ class AddressServiceTest {
 		verify(addressRepository, Mockito.times(2)).findById(1L);
 		verify(personRepository, Mockito.times(3)).findById(1L);
 		assertEquals(testPerson.getPrincipalAddress(), result);
-		assertEquals(testPerson.getPrincipalAddress().getCEP(), "45530-001");
+		assertEquals(testPerson.getPrincipalAddress().getCep(), "45530-001");
 	}
 
 	@Test
@@ -287,7 +287,7 @@ class AddressServiceTest {
 	void updateAddressTest() {
 		// arrange
 		Address newAddress = new Address();
-		newAddress.setCEP("25550-354");
+		newAddress.setCep("25550-354");
 		newAddress.setNumber(456);
 		newAddress.setCity("couves gerais");
 		Mockito.when(addressRepository.findById(1L)).thenReturn(Optional.of(testAddress));
@@ -296,7 +296,7 @@ class AddressServiceTest {
 		// assert
 		verify(addressRepository).findById(1L);
 		assertEquals(resultAddress.getCity(), "couves gerais");
-		assertEquals(resultAddress.getCEP(), "25550-354");
+		assertEquals(resultAddress.getCep(), "25550-354");
 		assertEquals(resultAddress.getNumber(), 456);
 	}
 

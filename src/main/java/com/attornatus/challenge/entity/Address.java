@@ -34,7 +34,7 @@ public class Address {
 	private String publicArea;
 	
 	@Column(length = 9)
-	private String CEP;
+	private String cep;
 	
 	@Column
 	private Integer number;

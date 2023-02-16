@@ -114,7 +114,7 @@ public class AddressService {
 		Address address = findAddressById(addressId);
 
 		address.setPublicArea(updatedAddress.getPublicArea());
-		address.setCEP(updatedAddress.getCEP());
+		address.setCep(updatedAddress.getCep());
 		address.setNumber(updatedAddress.getNumber());
 		address.setCity(updatedAddress.getCity());
 
