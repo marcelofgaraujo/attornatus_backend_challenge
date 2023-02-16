@@ -67,6 +67,13 @@ public class AddressController {
 		return ResponseEntity.ok(convertAddressToDTO(address));
 	}
 	
+	@ApiOperation(value = "Excluir o endereço principal de uma pessoa")
+	@GetMapping("/removeprincipaladdress/{personId}")
+	public ResponseEntity<Void> removePrincipalAddress(@PathVariable Long personId) {
+		addressService.removePrincipalAddress(personId);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@ApiOperation(value = "Buscar todos os endereços de uma pessoa")
 	@GetMapping("/useraddresses/{personId}")
 	public ResponseEntity<List<AddressDTO>> getAllPersonAddresses(@PathVariable Long personId) {
