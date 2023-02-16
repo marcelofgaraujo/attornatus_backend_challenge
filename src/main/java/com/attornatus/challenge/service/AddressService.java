@@ -1,4 +1,4 @@
-// classe de serviços para para operações relacionadas com endereços
+// classe de serviços para operações relacionadas com endereços
 
 package com.attornatus.challenge.service;
 
