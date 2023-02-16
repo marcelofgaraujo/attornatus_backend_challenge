@@ -1,4 +1,4 @@
-<h1>Attonartus Backend Challenge</h1>
+<h1>Attornatus Backend Challenge</h1>
 <p>Desafio backend para o processo de seleção da empresa Attornatus Procuradoria Digital.</p>
 <h2>O Desafio</h2>
 <p>Criar uma aplicação com Spring Boot para gerenciar pessoas. A api deve permitir:
