@@ -12,10 +12,13 @@
 <li>Lombok</li>
 <li>JUnit 5</li>
 <li>Spring Boot Test com Mockito</li>
-<li>Swagger API 3.0.0</li>
-<li>Model Mapper</li></ul>
+<li>Swagger API</li>
+<li>Model Mapper</li>
+<li>AWS EC2</li></ul>
 <h2>A Aplicação</h2>
-<p>Pelo desafio proposto, foram criadas duas entidades Person e Address, e as tabelas relacionadas de forma que uma pessoa tenha vários endereços, e um deles como sendo o endereço principal. Foi utilizado o Lombok, diminuindo assim a verbosidade de todo o código. Foi utilizado o padrão DTO para a transferência de dados entre as camadas, e para essa conversão foi utilizado o Model Mapper. Os endpoints foram documentados com Swagger, e a classe de serviços foi testada com JUnit 5 para as assertions e o Mockito para o mock dos repositórios e sua injeção na classe de serviços testada.</p>
+<p>Pelo desafio proposto, foram criadas duas entidades Person e Address, e as tabelas relacionadas de forma que uma pessoa tenha vários endereços, e um deles como sendo o endereço principal. Foi utilizado o Lombok, diminuindo assim a verbosidade de todo o código. Foi utilizado o padrão DTO para a transferência de dados entre as camadas, e para essa conversão foi utilizado o Model Mapper. Os endpoints foram documentados com Swagger, e a classe de serviços foi testada com JUnit 5 para as assertions e o Mockito para o mock dos repositórios e sua injeção na classe de serviços testada. O deploy da aplicação foi feito a partir de uma instância EC2 da AWS, e a conexão persistida através de um script .service rodando na máquina virtual.</p>
+<h2>Acessando a aplicação</h2>
+<ul><li><a href="http://ec2-15-228-191-16.sa-east-1.compute.amazonaws.com:8080/swagger-ui.html#/">Documentação Swagger</a></li></ul>
 <h2>Clonando o repositório</h2>
 <p>Para clonar com uma chave SSH, basta dar o comando git:</p>
 
