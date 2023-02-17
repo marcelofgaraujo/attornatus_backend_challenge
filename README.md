@@ -9,6 +9,7 @@
 <h2>Tecnologias utilizadas</h2>
 <ul><li>Java 17</li>
 <li>Spring Boot 2.7.8</li>
+<li>H2 Database</li>
 <li>Lombok</li>
 <li>JUnit 5</li>
 <li>Spring Boot Test com Mockito</li>
