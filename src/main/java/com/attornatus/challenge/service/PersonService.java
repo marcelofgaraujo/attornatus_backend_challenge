@@ -4,6 +4,8 @@ package com.attornatus.challenge.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,6 +33,13 @@ public class PersonService {
 	// retorna uma lista com todas as pessoas
 	public List<Person> findAllPersons() {
 		return personRepository.findAll();
+	}
+	
+	// retorna uma busca paginada de pessoas
+	public Iterable<Person> findPersonsPerPage(int pageNumber, int quantityPerPage) {
+		if (quantityPerPage > 3) quantityPerPage = 3;
+		Pageable page = PageRequest.of(pageNumber, quantityPerPage);
+		return personRepository.findAll(page);
 	}
 	
 	// retorna uma pessoa por id no banco
