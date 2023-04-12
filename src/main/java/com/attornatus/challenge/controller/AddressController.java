@@ -41,6 +41,14 @@ public class AddressController {
 		return ResponseEntity.ok(convertListAddressToListDTO(addresses));
 	}
 	
+	@ApiOperation(value = "Busca paginada de endereços")
+	@GetMapping("/pagedsearch/{pageNumber}/{quantityPerPage}")
+	public ResponseEntity<List<AddressDTO>> getAddressesByPage(@PathVariable int pageNumber,
+			@PathVariable int quantityPerPage) {
+		Iterable<Address> addresses = addressService.findAddressesByPage(pageNumber, quantityPerPage);
+		return ResponseEntity.ok(convertIterableAddressToListDTO(addresses));
+	}
+	
 	@ApiOperation(value = "Buscar endereço por id")
 	@GetMapping("/{addressId}")
 	public ResponseEntity<AddressDTO> getAddressById(@PathVariable Long addressId) {
@@ -118,6 +126,16 @@ public class AddressController {
 	
 	// converte uma lista de entidades address em uma lista de objetos address dto
 	private List<AddressDTO> convertListAddressToListDTO(List<Address> addresses) {
+		List<AddressDTO> addressesDTO = new ArrayList<>();
+		addresses.forEach(ad -> {
+			addressesDTO.add(convertAddressToDTO(ad));
+		});
+		
+		return addressesDTO;
+	}
+	
+	// converte um iterável de entidades address em uma lista de objetos address dto
+	private List<AddressDTO> convertIterableAddressToListDTO(Iterable<Address> addresses) {
 		List<AddressDTO> addressesDTO = new ArrayList<>();
 		addresses.forEach(ad -> {
 			addressesDTO.add(convertAddressToDTO(ad));
