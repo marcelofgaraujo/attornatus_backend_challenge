@@ -41,6 +41,14 @@ public class PersonController {
 		return ResponseEntity.ok(convertListPersonToListDTO(persons));
 	}
 	
+	@ApiOperation(value = "Busca paginada de pessoas")
+	@GetMapping("/pagedsearch/{pageNumber}/{quantityPerPage}")
+	public ResponseEntity<List<PersonDTO>> getPersonsByPage(@PathVariable int pageNumber,
+			@PathVariable int quantityPerPage) {
+		Iterable<Person> persons = personService.findPersonsPerPage(pageNumber, quantityPerPage);
+		return ResponseEntity.ok(convertIterablePersonToListDTO(persons));
+	}
+	
 	@ApiOperation(value = "Buscar pessoa pelo nome exato")
 	@GetMapping("/names/{name}")
 	public ResponseEntity<List<PersonDTO>> getPersonByName(@PathVariable String name) {
@@ -90,6 +98,16 @@ public class PersonController {
 	
 	// converte uma lista de entidades person em uma lista de objetos person dto
 	private List<PersonDTO> convertListPersonToListDTO(List<Person> persons) {
+		List<PersonDTO> personsDTO = new ArrayList<>();
+		persons.forEach(p -> {
+			personsDTO.add(convertPersonToDTO(p));
+		});
+		
+		return personsDTO;
+	}
+	
+	// converte um iterável de entidades person em uma lista de objetos person dto
+	private List<PersonDTO> convertIterablePersonToListDTO(Iterable<Person> persons) {
 		List<PersonDTO> personsDTO = new ArrayList<>();
 		persons.forEach(p -> {
 			personsDTO.add(convertPersonToDTO(p));
