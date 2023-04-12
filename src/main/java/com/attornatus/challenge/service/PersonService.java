@@ -39,9 +39,9 @@ public class PersonService {
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!"));
 	}
 	
-	// retorna uma pessoa pelo nome exato
+	// retorna uma pessoa por trecho do nome
 	public List<Person> findPersonsByName(String name) throws ResponseStatusException {
-		List<Person> foundPersons = personRepository.findByName(name);
+		List<Person> foundPersons = personRepository.findByNameContainingIgnoreCase(name);
 		if (foundPersons.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada!");
 		} else {

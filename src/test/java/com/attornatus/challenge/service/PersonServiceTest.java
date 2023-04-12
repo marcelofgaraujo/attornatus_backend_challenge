@@ -110,11 +110,11 @@ class PersonServiceTest {
 		newPerson.setName("joão das couves");
 		newPerson.setBirthDate(Date.valueOf("1925-11-12"));
 		List<Person> personsList = Arrays.asList(testPerson, newPerson);
-		Mockito.when(personRepository.findByName("joão das couves")).thenReturn(personsList);
+		Mockito.when(personRepository.findByNameContainingIgnoreCase("joão")).thenReturn(personsList);
 		// action
-		List<Person> returnList = personService.findPersonsByName("joão das couves");
+		List<Person> returnList = personService.findPersonsByName("joão");
 		// assert
-		verify(personRepository).findByName("joão das couves");
+		verify(personRepository).findByNameContainingIgnoreCase("joão");
 		assertEquals(returnList.size(), personsList.size());
 		assertNotNull(returnList);
 	}

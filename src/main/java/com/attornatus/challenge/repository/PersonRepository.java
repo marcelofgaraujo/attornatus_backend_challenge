@@ -11,6 +11,6 @@ import com.attornatus.challenge.entity.Person;
 
 public interface PersonRepository extends JpaRepository<Person, Long> {
 	
-	public List<Person> findByName(String name);
+	public List<Person> findByNameContainingIgnoreCase(String name);
 	
 }
