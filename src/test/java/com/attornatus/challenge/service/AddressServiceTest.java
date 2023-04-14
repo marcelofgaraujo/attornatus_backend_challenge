@@ -20,6 +20,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.attornatus.challenge.entity.Address;
@@ -86,6 +90,30 @@ class AddressServiceTest {
 		verify(addressRepository).findAll();
 		assertEquals(listReturn.size(), 2);
 		assertNotNull(listReturn);
+	}
+	
+	// teste para uma busca paginada de endereços
+	@SuppressWarnings("unused")
+	@Test
+	void addressPagedSearch() {
+		// arrange
+		Address testAddress2 = new Address(2L, "rua do brócolis, bairro couve", "55530-001", 254, "couves gerais",
+				null);
+		Address testAddress3 = new Address(3L, "rua do brócolis, bairro couve", "55530-001", 254, "couves gerais",
+				null);
+		// este ultimo testAddress nao deve aparecer na busca
+		Address testAddress4 = new Address(4L, "rua do brócolis, bairro couve", "55530-001", 254, "couves gerais",
+				null);
+		Pageable page = PageRequest.of(0, 3);
+		List<Address> expectReturn = Arrays.asList(testAddress, testAddress2, testAddress3);
+		Page<Address> pageResult = new PageImpl<>(expectReturn);
+		Mockito.when(addressService.findAddressesByPage(0, 3)).thenReturn(pageResult);
+		// action
+		Page<Address> pagedReturn = (Page<Address>) addressService.findAddressesByPage(0, 3);
+		List<Address> listReturn = pagedReturn.getContent();
+		// assert
+		verify(addressRepository).findAll(page);
+		assertEquals(expectReturn.size(), listReturn.size());
 	}
 
 	// teste para o retorno de um endereço por id
